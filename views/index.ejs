@@ -1,0 +1,51 @@
+<!-- Include the shared metadata and navigation bar components -->
+<%- include('partials/head.ejs', {page: "Home" }) %>
+<%- include('partials/header.ejs') %>
+
+<!-- Include the javascript responsible for the grid layout we are using on this view -->
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+<script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
+
+<script>
+    // We are setting up the grid and then reloading the layout once the images are loaded.
+    $(document).ready(() => {
+        if (!$('.grid')) { return; }
+        var $grid = $('.grid').masonry({
+            itemSelector: '.grid-item',
+            percentPosition: true,
+            columnWidth: '.grid-sizer'
+        });
+        $grid.imagesLoaded( function() {
+            $grid.masonry('layout');
+        });
+    });
+</script>
+
+<div class="container px-4 text-center">
+    <div class="row gx-5">
+        <div class="col">
+            <!-- If there are no pins in the database we want to display an alert instead of a grid -->
+            <% if (!pins || pins.length <= 0) { %>
+                <div class="alert alert-secondary" role="alert">
+                    No Pins exist!
+                  </div>
+            <% } else { %>
+                <div class="grid">
+                <div class="grid-sizer"></div>
+                <!-- Loop through the pins passed into the template and create the anchor tag (based on the pin ID) and display the image -->
+                <% pins.forEach(pin => { %>
+                    <div class="grid-item">
+                        <a href="/pin/<%= pin._id.toString() %>">
+                            <img src="<%= pin.image %>" />
+                        </a>
+                    </div>
+                <% }) %>
+                </div>
+            <% } %> 
+        </div>
+    </div>
+</div>
+
+<!-- Include the shared footer and end tags -->
+<%- include('partials/footer.ejs') %>
+<%- include('partials/foot.ejs') %>

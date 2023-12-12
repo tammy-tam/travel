@@ -1,0 +1,34 @@
+<%- include('../partials/head.ejs', {page: "Create new Pin" }) %>
+<%- include('../partials/header.ejs') %>
+
+<div class="container px-4">
+    <div class="row gx-5">
+        <div class="col-4">
+            <!-- Display an error if there was an issue creating the pin after submitting the form -->
+            <% if (error) { %>
+                <div class="alert alert-danger" role="alert">
+                    <%= error %> 
+                  </div>
+            <% } %>
+            <!-- Create a form to take information and pass it to the pin create POST route -->
+            <form action="/pin" method="POST">
+                <div class="mb-3">
+                  <label for="title" class="form-label">Title</label>
+                  <input name="title" type="text" class="form-control" id="title">
+                </div>
+                <div class="mb-3">
+                    <label for="image" class="form-label">Image URL</label>
+                    <input name="image" type="text" class="form-control" id="image">
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea name="description" class="form-control" id="description"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer.ejs') %>
+<%- include('../partials/foot.ejs') %>
